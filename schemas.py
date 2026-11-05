@@ -27,7 +27,13 @@ class MovieAdd(BaseMovie):
         return v
     
 class MovieResponse(BaseMovie):
+    # from_attributes=True lets Pydantic read from the ORM object:
+    # 1. Endpoint returns a MovieLibrary object.
+    # 2. FastAPI passes it to response_model=MovieResponse.
+    # 3. Pydantic reads movie.id, movie.title, movie.posted_at... one by one.
+    # 4. Builds MovieResponse and turns it into JSON for the client.
     model_config = ConfigDict(from_attributes=True)
+
     id: int
     posted_at: datetime
     
